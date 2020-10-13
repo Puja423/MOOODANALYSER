@@ -35,13 +35,35 @@ namespace UnitTestProject1
     public class UnitTest2
     {
         [TestMethod]
-        public void GivenNullMood_ReturnHappy()
+        public void Given_ShouldThrowEmptyValue()
         {
-            string expected = "HAPPY";
-            string message = "HAPPY";
-            MoodAnalyzer moodAnalyzer = new MoodAnalyzer(message);
-            string mood = moodAnalyzer.CheckMood();
-            Assert.AreEqual(expected, mood);
+            try
+            {
+                string message = "";
+                MoodAnalyzerCustomerException moodAnalyzer = new MoodAnalyzerCustomerException(message);
+                string mood = moodAnalyzer.AnalyseMood();
+
+
+            }
+            catch (MoodAnalyzerCustomerException e)
+            {
+                Assert.AreEqual("Mood should not be empty", e.Message);
+            }
+
+        }
+        [TestMethod]
+        public void Given_NULL_Mood_Should_Throw_MoodAnalysisException()
+        {
+            try
+            {
+                string message = null;
+                MoodAnalyzerCustomerException moodAnalyse = new MoodAnalyzerCustomerException(message);
+                string mood = moodAnalyse.AnalyseMood();
+            }
+            catch (MoodAnalyzerCustomerException e)
+            {
+                Assert.AreEqual("Mood should not be null", e.Message);
+            }
         }
     }
 }

@@ -4,38 +4,49 @@ using System.Text;
 
 namespace MoodANALYSER
 {
-   public class MoodAnalyzer
+    public class MoodAnalyzerCustomerException : Exception
     {
-        public string message { get; set; }
-
-        public MoodAnalyzer()
+        public enum ExceptionType
         {
-
+            Null_message, Empty_message
         }
-        public MoodAnalyzer(string message)
+        private readonly ExceptionType type;
+
+
+        public MoodAnalyzerCustomerException(ExceptionType Type, string message) : base(message)
         {
-            this.message = message;
+            this.type = Type;
         }
 
-        public string CheckMood( string message=null)
+        public MoodAnalyzerCustomerException(object message)
         {
-            var Message = message;
+        }
+
+        public string AnalyseMood()
+        {
             try
             {
-                Message = Message.ToLower();
-                if (Message == "I am sad")
+                if (this.Message.Equals(string.Empty))
                 {
-                    return "SAd";
+                    throw new MoodAnalyzerCustomerException(MoodAnalyzerCustomerException.ExceptionType.Empty_message, "mood is empty");
+                }
+
+
+                if (this.Message.Contains("Sad"))
+                {
+                    return "SAD";
                 }
                 else
                 {
                     return "HAPPY";
                 }
+
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
-                return "HAPPY";
+                throw new MoodAnalyzerCustomerException(MoodAnalyzerCustomerException.ExceptionType.Null_message, "mood is invalid");
             }
+
         }
     }
 }
